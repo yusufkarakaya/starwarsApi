@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import CardList from "./components/CardList";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      people: [],
+    };
+  }
+
+  componentDidMount() {
+    fetch(`https://swapi.py4e.com/api/people/`)
+      .then((response) => response.json())
+      .then((people) => this.setState({ people: people.results }));
+  }
+
+  render() {
+    const { people } = this.state;
+
+    return (
+      <div>
+        <h1 className="tc pa2 f1">The Star Wars API</h1>
+        <hr></hr>
+        <CardList people={people} />
+      </div>
+    );
+  }
 }
 
 export default App;
